@@ -60,6 +60,8 @@ TEXTS = {
         "page.years_suffix": "yıl",
         "page.term_help": "Eğitim verisinde 2 ile 20 yıl arası.",
         "page.income_title": "Gelir ve kişisel bilgiler",
+        "page.income_short": "Gelir bilgileri",
+        "page.steps_label": "Başvuru adımları",
         "page.income": "Yıllık gelir",
         "page.dependents": "Bakmakla yükümlü olunan kişi",
         "page.decrease": "Bir azalt",
@@ -85,6 +87,7 @@ TEXTS = {
 
         # ---------- Model sayfası ----------
         "page.about_lede": "KrediTahmin'in arkasında bir <strong>{model}</strong> modeli var. Modeli eğitirken 10 farklı sınıflandırma algoritmasını karşılaştırdım; en büyük farkı ise algoritma seçimi değil, veriden türettiğim yeni değişkenler yarattı.",
+        "page.toc_label": "Bu sayfada",
         "page.test_title": "Test sonucu",
         "page.test_text": "Model, eğitimde hiç görmediği {total} başvurudan <strong>{correct}</strong> tanesini doğru tahmin etti.",
         "page.accuracy": "Doğruluk (accuracy)",
@@ -232,6 +235,8 @@ TEXTS = {
         "page.years_suffix": "yrs",
         "page.term_help": "Between 2 and 20 years in the training data.",
         "page.income_title": "Income and personal details",
+        "page.income_short": "Income",
+        "page.steps_label": "Application steps",
         "page.income": "Annual income",
         "page.dependents": "Dependents",
         "page.decrease": "Decrease",
@@ -257,6 +262,7 @@ TEXTS = {
 
         # ---------- Model page ----------
         "page.about_lede": "KrediTahmin runs on a <strong>{model}</strong> model. While training it I compared 10 classification algorithms; the biggest gain came not from the choice of algorithm but from new variables I derived from the data.",
+        "page.toc_label": "On this page",
         "page.test_title": "Test results",
         "page.test_text": "Out of {total} applications it never saw during training, the model predicted <strong>{correct}</strong> correctly.",
         "page.accuracy": "Accuracy",

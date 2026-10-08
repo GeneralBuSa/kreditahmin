@@ -15,6 +15,7 @@ Capstone project of the **Data Science and Machine Learning 2026: 100-Day Bootca
 ## Features
 
 - **Prediction with reasoning:** the approval decision, the approval probability and an explanation of the variables that drove the decision.
+- **Section menus (scrollspy):** a step bar above the form on the home page (Credit score, Loan request, Income, Assets) and a table of contents on the "How does the model work?" page; the section you're on is highlighted as you scroll.
 - **Warnings:** when a value falls outside the range of the training data, the app says the prediction may be unreliable.
 - **Turkish and English:** Turkish pages live at `/` and `/model`, English pages at `/en/` and `/en/model`. Switch languages with the **TR | EN** toggle in the top right.
 - **Light and dark theme:** follows the operating system setting on first visit; can be changed with the toggle in the top right, and the choice is remembered in the browser.
@@ -205,7 +206,7 @@ kreditahmin/
 ├── templates/              HTML templates (Jinja): application, model and error pages
 ├── static/
 │   ├── css/style.css       Design (light and dark theme)
-│   ├── js/                 boot.js (theme, texts), app.js (form), theme.js (toggles),
+│   ├── js/                 boot.js (theme, texts), app.js (form), theme.js (toggles), scrollspy.js,
 │   │                       predictor.js (model running in the browser on GitHub Pages)
 │   ├── img/                Guilloche patterns and link preview image (og-image.png)
 │   └── fonts/              Archivo typeface

@@ -29,7 +29,7 @@
   <script id="kredi-i18n" type="application/json">{"js.badge_approve": "Approved", "js.badge_reject": "Rejected", "js.badge_stale": "Inputs changed", "js.badge_waiting": "Waiting", "js.form_invalid": "Some fields are missing or invalid. Please fix the highlighted fields.", "js.generic_error": "Something went wrong. Please try again shortly.", "js.network_error": "Couldn\u0027t reach the server. Make sure the app is running and try again.", "js.score_above": "Above threshold", "js.score_below": "Below threshold", "js.stamp_approve": "YES", "js.stamp_reject": "NO", "js.submit": "Evaluate application", "js.submitting": "Evaluating\u2026", "js.verdict_approve": "The model predicts this application will be approved.", "js.verdict_reject": "The model predicts this application will be rejected.", "js.years": "{value} years", "lang": "en", "num.decimal": ".", "num.locale": "en-US", "num.percent": "{value}%", "num.thousands": ","}</script>
   <script src="../static/js/boot.js?v=ef182cb795"></script>
   <link rel="preload" href="../static/fonts/Archivo-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../static/css/style.css?v=1cc8b9089d">
+  <link rel="stylesheet" href="../static/css/style.css?v=462e2bd675">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -94,9 +94,31 @@
   </div>
 </section>
 
+
+<div class="report-layout">
+<nav class="toc toc--page" aria-label="On this page" data-scrollspy>
+  <p class="toc__title" aria-hidden="true">On this page</p>
+  <div class="toc__track">
+    <ol class="toc__list">
+      <li class="toc__marker" aria-hidden="true"></li>
+      
+      <li><a class="toc__link" href="#results">Test results</a></li>
+      
+      <li><a class="toc__link" href="#features">Impact of feature engineering</a></li>
+      
+      <li><a class="toc__link" href="#importance">What does the model look at?</a></li>
+      
+      <li><a class="toc__link" href="#process">How it was built</a></li>
+      
+      <li><a class="toc__link" href="#caveats">Good to know</a></li>
+      
+    </ol>
+  </div>
+</nav>
+
 <div class="report">
 
-  <section class="report__block">
+  <section class="report__block" id="results">
     <h2>Test results</h2>
     <p class="report__text">Out of 854 applications it never saw during training, the model predicted <strong>852</strong> correctly.</p>
     <div class="figures">
@@ -126,7 +148,7 @@
     </table>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="features">
     <h2>Impact of feature engineering</h2>
     <p class="report__text">
       Banks look at ratios more than raw amounts. I derived four ratios from the raw columns: total assets, loan / income, loan / assets and, most importantly, <strong>annual payment / annual income</strong>. The chart shows each model's 5-fold cross-validation accuracy without and with these variables.
@@ -274,7 +296,7 @@
     </p>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="importance">
     <h2>What does the model look at?</h2>
     <p class="report__text">Feature importances of the final model. The credit score drives most of the decision and the annual payment / income ratio most of the rest; income, assets, education and employment have almost no effect.</p>
     
@@ -313,7 +335,7 @@
     </ul>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="process">
     <h2>How it was built</h2>
     <ol class="steps">
       
@@ -334,7 +356,7 @@
     </ol>
   </section>
 
-  <section class="report__block report__block--caveat">
+  <section class="report__block report__block--caveat" id="caveats">
     <h2>Good to know</h2>
     <ul class="caveats">
       
@@ -349,6 +371,7 @@
     </ul>
   </section>
 
+</div>
 </div>
 
   </main>
@@ -367,5 +390,7 @@
   <script src="../static/js/theme.js?v=34637e5ecb"></script>
   <script src="../static/js/predictor.js?v=6bbb6c44f4"></script>
   
+<script src="../static/js/scrollspy.js?v=beb1d31f28"></script>
+
 </body>
 </html>

@@ -29,7 +29,7 @@
   <script id="kredi-i18n" type="application/json">{"js.badge_approve": "Onaylan\u0131r", "js.badge_reject": "Reddedilir", "js.badge_stale": "Bilgiler de\u011fi\u015fti", "js.badge_waiting": "Bekleniyor", "js.form_invalid": "Baz\u0131 alanlar eksik veya hatal\u0131. \u0130\u015faretli alanlar\u0131 d\u00fczeltin.", "js.generic_error": "Bir hata olu\u015ftu. Biraz sonra tekrar deneyin.", "js.network_error": "Sunucuya ula\u015f\u0131lamad\u0131. Uygulaman\u0131n \u00e7al\u0131\u015ft\u0131\u011f\u0131ndan emin olup tekrar deneyin.", "js.score_above": "E\u015fi\u011fin \u00fczerinde", "js.score_below": "E\u015fi\u011fin alt\u0131nda", "js.stamp_approve": "ONAY", "js.stamp_reject": "RET", "js.submit": "Ba\u015fvuruyu de\u011ferlendir", "js.submitting": "De\u011ferlendiriliyor\u2026", "js.verdict_approve": "Model bu ba\u015fvurunun onaylanaca\u011f\u0131n\u0131 tahmin ediyor.", "js.verdict_reject": "Model bu ba\u015fvurunun reddedilece\u011fini tahmin ediyor.", "js.years": "{value} y\u0131l", "lang": "tr", "num.decimal": ",", "num.locale": "tr-TR", "num.percent": "%{value}", "num.thousands": "."}</script>
   <script src="static/js/boot.js?v=ef182cb795"></script>
   <link rel="preload" href="static/fonts/Archivo-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="static/css/style.css?v=1cc8b9089d">
+  <link rel="stylesheet" href="static/css/style.css?v=462e2bd675">
 </head>
 <body>
   <a class="skip-link" href="#main">İçeriğe geç</a>
@@ -97,8 +97,22 @@
 
 <div class="workspace">
   <form id="application" class="panel" novalidate data-endpoint="/api/predict?lang=tr">
+    <nav class="toc toc--steps" aria-label="Başvuru adımları" data-scrollspy>
+      <ol class="toc__list">
+        <li class="toc__marker" aria-hidden="true"></li>
+        
+        <li><a class="toc__link" href="#score">Kredi skoru</a></li>
+        
+        <li><a class="toc__link" href="#loan">Kredi talebi</a></li>
+        
+        <li><a class="toc__link" href="#income">Gelir bilgileri</a></li>
+        
+        <li><a class="toc__link" href="#assets">Varlıklar</a></li>
+        
+      </ol>
+    </nav>
 
-    <section class="panel__section panel__section--score" aria-labelledby="score-title">
+    <section class="panel__section panel__section--score" id="score" aria-labelledby="score-title">
       <div class="section-head">
         <h2 id="score-title">Kredi skoru</h2>
         <p>Modelin kararında en belirleyici bilgi. Bu, Hindistan'daki <strong>CIBIL</strong> skorudur (300–900). Türkiye'deki Findeks notuyla (1–1900) aynı ölçekte değildir; Findeks notunuzu buraya doğrudan girmeyin.</p>
@@ -122,7 +136,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="loan-title">
+    <section class="panel__section" id="loan" aria-labelledby="loan-title">
       <div class="section-head">
         <h2 id="loan-title">Kredi talebi</h2>
       </div>
@@ -147,7 +161,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="income-title">
+    <section class="panel__section" id="income" aria-labelledby="income-title">
       <div class="section-head">
         <h2 id="income-title">Gelir ve kişisel bilgiler</h2>
       </div>
@@ -194,7 +208,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="assets-title">
+    <section class="panel__section" id="assets" aria-labelledby="assets-title">
       <div class="section-head">
         <h2 id="assets-title">Varlıklar</h2>
         <p>Sahip olmadığınız varlık türü için 0 girin.</p>
@@ -293,7 +307,8 @@
   <script src="static/js/theme.js?v=34637e5ecb"></script>
   <script src="static/js/predictor.js?v=6bbb6c44f4"></script>
   
-<script src="static/js/app.js?v=cfee7dde02"></script>
+<script src="static/js/app.js?v=45d4b3b1a0"></script>
+<script src="static/js/scrollspy.js?v=beb1d31f28"></script>
 
 </body>
 </html>

@@ -33,8 +33,16 @@
 
 <div class="workspace">
   <form id="application" class="panel" novalidate data-endpoint="{{ url_for('predict', lang=lang) }}">
+    <nav class="toc toc--steps" aria-label="{{ t('page.steps_label') }}" data-scrollspy>
+      <ol class="toc__list">
+        <li class="toc__marker" aria-hidden="true"></li>
+        {% for id, key in [("score", "page.score_title"), ("loan", "page.loan_title"), ("income", "page.income_short"), ("assets", "page.assets_title")] %}
+        <li><a class="toc__link" href="#{{ id }}">{{ t(key) }}</a></li>
+        {% endfor %}
+      </ol>
+    </nav>
 
-    <section class="panel__section panel__section--score" aria-labelledby="score-title">
+    <section class="panel__section panel__section--score" id="score" aria-labelledby="score-title">
       <div class="section-head">
         <h2 id="score-title">{{ t('page.score_title') }}</h2>
         <p>{{ t('page.score_help') }}</p>
@@ -58,7 +66,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="loan-title">
+    <section class="panel__section" id="loan" aria-labelledby="loan-title">
       <div class="section-head">
         <h2 id="loan-title">{{ t('page.loan_title') }}</h2>
       </div>
@@ -76,7 +84,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="income-title">
+    <section class="panel__section" id="income" aria-labelledby="income-title">
       <div class="section-head">
         <h2 id="income-title">{{ t('page.income_title') }}</h2>
       </div>
@@ -116,7 +124,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="assets-title">
+    <section class="panel__section" id="assets" aria-labelledby="assets-title">
       <div class="section-head">
         <h2 id="assets-title">{{ t('page.assets_title') }}</h2>
         <p>{{ t('page.assets_help') }}</p>
@@ -174,4 +182,5 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/scrollspy.js') }}"></script>
 {% endblock %}

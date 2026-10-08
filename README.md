@@ -15,6 +15,7 @@ Kredi başvurusunun onaylanıp onaylanmayacağını tahmin eden bir makine öğr
 ## Özellikler
 
 - **Tahmin ve gerekçe:** Onay kararı, onay olasılığı ve kararı en çok etkileyen değişkenlerin açıklaması.
+- **Bölüm menüleri (scrollspy):** Ana sayfadaki formun üstünde adım şeridi (Kredi skoru, Kredi talebi, Gelir, Varlıklar), "Model nasıl çalışıyor?" sayfasında içindekiler menüsü var; kaydırdıkça bulunulan bölüm vurgulanır.
 - **Uyarılar:** Eğitim verisinin dışında kalan değerler girildiğinde tahminin güvenilir olmayabileceği söylenir.
 - **Türkçe ve İngilizce:** Türkçe sayfalar `/` ve `/model`, İngilizce sayfalar `/en/` ve `/en/model` adresindedir. Dil, sağ üstteki **TR | EN** anahtarıyla değiştirilir.
 - **Açık ve karanlık tema:** İlk açılışta işletim sisteminin ayarı kullanılır; sağ üstteki anahtarla değiştirilebilir ve seçim tarayıcıda hatırlanır.
@@ -203,7 +204,7 @@ kreditahmin/
 ├── templates/              HTML şablonları (Jinja): başvuru, model ve hata sayfaları
 ├── static/
 │   ├── css/style.css       Tasarım (açık ve karanlık tema)
-│   ├── js/                 boot.js (tema, metinler), app.js (form), theme.js (anahtarlar),
+│   ├── js/                 boot.js (tema, metinler), app.js (form), theme.js (anahtarlar), scrollspy.js,
 │   │                       predictor.js (GitHub Pages'te tarayıcıda çalışan model)
 │   ├── img/                Guilloche desenleri ve paylaşım görseli (og-image.png)
 │   └── fonts/              Archivo yazı tipi

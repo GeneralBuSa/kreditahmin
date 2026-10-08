@@ -29,7 +29,7 @@
   <script id="kredi-i18n" type="application/json">{"js.badge_approve": "Onaylan\u0131r", "js.badge_reject": "Reddedilir", "js.badge_stale": "Bilgiler de\u011fi\u015fti", "js.badge_waiting": "Bekleniyor", "js.form_invalid": "Baz\u0131 alanlar eksik veya hatal\u0131. \u0130\u015faretli alanlar\u0131 d\u00fczeltin.", "js.generic_error": "Bir hata olu\u015ftu. Biraz sonra tekrar deneyin.", "js.network_error": "Sunucuya ula\u015f\u0131lamad\u0131. Uygulaman\u0131n \u00e7al\u0131\u015ft\u0131\u011f\u0131ndan emin olup tekrar deneyin.", "js.score_above": "E\u015fi\u011fin \u00fczerinde", "js.score_below": "E\u015fi\u011fin alt\u0131nda", "js.stamp_approve": "ONAY", "js.stamp_reject": "RET", "js.submit": "Ba\u015fvuruyu de\u011ferlendir", "js.submitting": "De\u011ferlendiriliyor\u2026", "js.verdict_approve": "Model bu ba\u015fvurunun onaylanaca\u011f\u0131n\u0131 tahmin ediyor.", "js.verdict_reject": "Model bu ba\u015fvurunun reddedilece\u011fini tahmin ediyor.", "js.years": "{value} y\u0131l", "lang": "tr", "num.decimal": ",", "num.locale": "tr-TR", "num.percent": "%{value}", "num.thousands": "."}</script>
   <script src="static/js/boot.js?v=ef182cb795"></script>
   <link rel="preload" href="static/fonts/Archivo-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="static/css/style.css?v=1cc8b9089d">
+  <link rel="stylesheet" href="static/css/style.css?v=462e2bd675">
 </head>
 <body>
   <a class="skip-link" href="#main">İçeriğe geç</a>
@@ -94,9 +94,31 @@
   </div>
 </section>
 
+
+<div class="report-layout">
+<nav class="toc toc--page" aria-label="Bu sayfada" data-scrollspy>
+  <p class="toc__title" aria-hidden="true">Bu sayfada</p>
+  <div class="toc__track">
+    <ol class="toc__list">
+      <li class="toc__marker" aria-hidden="true"></li>
+      
+      <li><a class="toc__link" href="#results">Test sonucu</a></li>
+      
+      <li><a class="toc__link" href="#features">Feature engineering etkisi</a></li>
+      
+      <li><a class="toc__link" href="#importance">Model neye bakıyor?</a></li>
+      
+      <li><a class="toc__link" href="#process">Geliştirme süreci</a></li>
+      
+      <li><a class="toc__link" href="#caveats">Bilmeniz gerekenler</a></li>
+      
+    </ol>
+  </div>
+</nav>
+
 <div class="report">
 
-  <section class="report__block">
+  <section class="report__block" id="results">
     <h2>Test sonucu</h2>
     <p class="report__text">Model, eğitimde hiç görmediği 854 başvurudan <strong>852</strong> tanesini doğru tahmin etti.</p>
     <div class="figures">
@@ -126,7 +148,7 @@
     </table>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="features">
     <h2>Feature engineering etkisi</h2>
     <p class="report__text">
       Bankalar ham tutarlardan çok oranlara bakar. Ham sütunlardan dört oran türettim: toplam varlık, kredi / gelir, kredi / varlık ve en önemlisi <strong>yıllık taksit / yıllık gelir</strong>. Grafikte her modelin bu değişkenler eklenmeden ve eklendikten sonraki 5-fold cross validation doğruluğu var.
@@ -274,7 +296,7 @@
     </p>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="importance">
     <h2>Model neye bakıyor?</h2>
     <p class="report__text">Final modelin değişken önem dereceleri. Kararın büyük kısmını kredi skoru, kalanını yıllık taksit / gelir oranı belirliyor; gelir, varlıklar, eğitim ve meslek bilgisinin etkisi neredeyse yok.</p>
     
@@ -313,7 +335,7 @@
     </ul>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="process">
     <h2>Geliştirme süreci</h2>
     <ol class="steps">
       
@@ -334,7 +356,7 @@
     </ol>
   </section>
 
-  <section class="report__block report__block--caveat">
+  <section class="report__block report__block--caveat" id="caveats">
     <h2>Bilmeniz gerekenler</h2>
     <ul class="caveats">
       
@@ -349,6 +371,7 @@
     </ul>
   </section>
 
+</div>
 </div>
 
   </main>
@@ -367,5 +390,7 @@
   <script src="static/js/theme.js?v=34637e5ecb"></script>
   <script src="static/js/predictor.js?v=6bbb6c44f4"></script>
   
+<script src="static/js/scrollspy.js?v=beb1d31f28"></script>
+
 </body>
 </html>

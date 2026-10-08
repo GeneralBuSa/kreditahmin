@@ -335,8 +335,9 @@ def test_api_defaults_to_turkish():
 
 def test_javascript_has_no_hardcoded_texts():
     """Kullanıcıya görünen metinler JS dosyalarına yazılmamalı; src/i18n.py'den gelmeli."""
-    for name in ("app.js", "theme.js", "predictor.js"):
-        source = (ROOT / "static" / "js" / name).read_text(encoding="utf-8")
+    for path in sorted((ROOT / "static" / "js").glob("*.js")):
+        name = path.name
+        source = path.read_text(encoding="utf-8")
         source = re.sub(r"/\*.*?\*/|//[^\n]*", "", source, flags=re.S)  # yorumlar hariç
         for lang in LANGUAGES:
             for key, value in TEXTS[lang].items():
@@ -427,3 +428,32 @@ def test_error_pages_do_not_reflect_input():
 def test_lang_parameter_only_affects_api():
     page = client().get("/?lang=en").get_data(as_text=True)
     assert '<html lang="tr">' in page
+
+
+@pytest.mark.parametrize("path", ["/model", "/en/model"])
+def test_model_page_table_of_contents(path):
+    page = client().get(path).get_data(as_text=True)
+    links = re.findall(r'<a class="toc__link" href="#([\w-]+)">', page)
+    assert links == ["results", "features", "importance", "process", "caveats"]
+    for section in links:
+        assert f'id="{section}"' in page
+    assert "js/scrollspy.js" in page
+
+
+@pytest.mark.parametrize("path", ["/", "/en/"])
+def test_home_page_step_navigation(path):
+    page = client().get(path).get_data(as_text=True)
+    links = re.findall(r'<a class="toc__link" href="#([\w-]+)">', page)
+    assert links == ["score", "loan", "income", "assets"]
+    for section in links:
+        assert f'id="{section}"' in page
+    assert "js/scrollspy.js" in page
+
+
+def test_narrow_screens_stack_the_assessment_card():
+    """1024px'ten dar ekranlarda Değerlendirme kartı formun altına iner (yan yana sığmaz)."""
+    css = (ROOT / "static" / "css" / "style.css").read_text(encoding="utf-8")
+    block = css[css.index("@media (max-width: 1024px) {"):]
+    block = block[:block.index("\n}\n")]
+    assert ".workspace { grid-template-columns: 1fr; }" in block
+    assert ".slip { position: static; }" in block

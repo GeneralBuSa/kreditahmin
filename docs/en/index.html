@@ -29,7 +29,7 @@
   <script id="kredi-i18n" type="application/json">{"js.badge_approve": "Approved", "js.badge_reject": "Rejected", "js.badge_stale": "Inputs changed", "js.badge_waiting": "Waiting", "js.form_invalid": "Some fields are missing or invalid. Please fix the highlighted fields.", "js.generic_error": "Something went wrong. Please try again shortly.", "js.network_error": "Couldn\u0027t reach the server. Make sure the app is running and try again.", "js.score_above": "Above threshold", "js.score_below": "Below threshold", "js.stamp_approve": "YES", "js.stamp_reject": "NO", "js.submit": "Evaluate application", "js.submitting": "Evaluating\u2026", "js.verdict_approve": "The model predicts this application will be approved.", "js.verdict_reject": "The model predicts this application will be rejected.", "js.years": "{value} years", "lang": "en", "num.decimal": ".", "num.locale": "en-US", "num.percent": "{value}%", "num.thousands": ","}</script>
   <script src="../static/js/boot.js?v=ef182cb795"></script>
   <link rel="preload" href="../static/fonts/Archivo-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../static/css/style.css?v=1cc8b9089d">
+  <link rel="stylesheet" href="../static/css/style.css?v=462e2bd675">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -97,8 +97,22 @@
 
 <div class="workspace">
   <form id="application" class="panel" novalidate data-endpoint="/api/predict?lang=en">
+    <nav class="toc toc--steps" aria-label="Application steps" data-scrollspy>
+      <ol class="toc__list">
+        <li class="toc__marker" aria-hidden="true"></li>
+        
+        <li><a class="toc__link" href="#score">Credit score</a></li>
+        
+        <li><a class="toc__link" href="#loan">Loan request</a></li>
+        
+        <li><a class="toc__link" href="#income">Income</a></li>
+        
+        <li><a class="toc__link" href="#assets">Assets</a></li>
+        
+      </ol>
+    </nav>
 
-    <section class="panel__section panel__section--score" aria-labelledby="score-title">
+    <section class="panel__section panel__section--score" id="score" aria-labelledby="score-title">
       <div class="section-head">
         <h2 id="score-title">Credit score</h2>
         <p>The most decisive input for the model. This is India's <strong>CIBIL</strong> score (300–900). It is not on the same scale as other credit scores such as Turkey's Findeks (1–1900), so don't enter those here directly.</p>
@@ -122,7 +136,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="loan-title">
+    <section class="panel__section" id="loan" aria-labelledby="loan-title">
       <div class="section-head">
         <h2 id="loan-title">Loan request</h2>
       </div>
@@ -147,7 +161,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="income-title">
+    <section class="panel__section" id="income" aria-labelledby="income-title">
       <div class="section-head">
         <h2 id="income-title">Income and personal details</h2>
       </div>
@@ -194,7 +208,7 @@
       </div>
     </section>
 
-    <section class="panel__section" aria-labelledby="assets-title">
+    <section class="panel__section" id="assets" aria-labelledby="assets-title">
       <div class="section-head">
         <h2 id="assets-title">Assets</h2>
         <p>Enter 0 for any asset type you don't have.</p>
@@ -293,7 +307,8 @@
   <script src="../static/js/theme.js?v=34637e5ecb"></script>
   <script src="../static/js/predictor.js?v=6bbb6c44f4"></script>
   
-<script src="../static/js/app.js?v=cfee7dde02"></script>
+<script src="../static/js/app.js?v=45d4b3b1a0"></script>
+<script src="../static/js/scrollspy.js?v=beb1d31f28"></script>
 
 </body>
 </html>

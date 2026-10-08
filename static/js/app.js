@@ -78,8 +78,9 @@
     scoreOutput.dataset.side = above ? "above" : "below";
     scoreStatus.dataset.side = above ? "above" : "below";
     scoreStatus.textContent = above ? T["js.score_above"] : T["js.score_below"];
-    const pct = ((score - 300) / 600) * 100;
-    range.style.setProperty("--fill", `${pct}%`);
+    // Kaydırıcının dolu kısmı ve tutamaç rengi (style.css'teki --p ve data-side).
+    range.style.setProperty("--p", String((score - 300) / 600));
+    range.dataset.side = above ? "above" : "below";
   }
 
   function setScore(score) {

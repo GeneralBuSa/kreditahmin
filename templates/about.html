@@ -19,9 +19,29 @@
   </div>
 </section>
 
+{% set sections = [
+  ("results", "page.test_title"),
+  ("features", "page.fe_title"),
+  ("importance", "page.importance_title"),
+  ("process", "page.process_title"),
+  ("caveats", "page.caveats_title"),
+] %}
+<div class="report-layout">
+<nav class="toc toc--page" aria-label="{{ t('page.toc_label') }}" data-scrollspy>
+  <p class="toc__title" aria-hidden="true">{{ t('page.toc_label') }}</p>
+  <div class="toc__track">
+    <ol class="toc__list">
+      <li class="toc__marker" aria-hidden="true"></li>
+      {% for id, key in sections %}
+      <li><a class="toc__link" href="#{{ id }}">{{ t(key) }}</a></li>
+      {% endfor %}
+    </ol>
+  </div>
+</nav>
+
 <div class="report">
 
-  <section class="report__block">
+  <section class="report__block" id="results">
     <h2>{{ t('page.test_title') }}</h2>
     <p class="report__text">{{ t('page.test_text', total=fmt_int(info.test_size), correct=fmt_int(correct)) }}</p>
     <div class="figures">
@@ -51,7 +71,7 @@
     </table>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="features">
     <h2>{{ t('page.fe_title') }}</h2>
     <p class="report__text">
       {{ t('page.fe_text') }}
@@ -91,7 +111,7 @@
     </p>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="importance">
     <h2>{{ t('page.importance_title') }}</h2>
     <p class="report__text">{{ t('page.importance_text') }}</p>
     {% set top = importances[0].value %}
@@ -106,7 +126,7 @@
     </ul>
   </section>
 
-  <section class="report__block">
+  <section class="report__block" id="process">
     <h2>{{ t('page.process_title') }}</h2>
     <ol class="steps">
       {% for n in range(1, 8) %}
@@ -115,7 +135,7 @@
     </ol>
   </section>
 
-  <section class="report__block report__block--caveat">
+  <section class="report__block report__block--caveat" id="caveats">
     <h2>{{ t('page.caveats_title') }}</h2>
     <ul class="caveats">
       {% for n in range(1, 5) %}
@@ -125,4 +145,9 @@
   </section>
 
 </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/scrollspy.js') }}"></script>
 {% endblock %}
