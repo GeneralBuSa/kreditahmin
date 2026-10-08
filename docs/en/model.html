@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; script-src &#39;self&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;; form-action &#39;self&#39;">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>How does the model work? · KrediTahmin</title>
+  <meta name="description" content="A machine learning app that predicts whether a loan application will be approved.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="KrediTahmin">
+  <meta property="og:title" content="How does the model work? · KrediTahmin">
+  <meta property="og:description" content="A machine learning app that predicts whether a loan application will be approved.">
+  <meta property="og:url" content="https://generalbusa.github.io/kreditahmin/en/model">
+  <meta property="og:image" content="https://generalbusa.github.io/kreditahmin/static/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="KrediTahmin: Will your loan application be approved? 99.77% test accuracy.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" hreflang="tr" href="../model.html">
+  <link rel="alternate" hreflang="en" href="model.html">
+  
+  <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../static/favicon.svg" type="image/svg+xml">
+  <meta name="kredi-model" content="../model.json">
+  <script id="kredi-i18n" type="application/json">{"js.badge_approve": "Approved", "js.badge_reject": "Rejected", "js.badge_stale": "Inputs changed", "js.badge_waiting": "Waiting", "js.form_invalid": "Some fields are missing or invalid. Please fix the highlighted fields.", "js.generic_error": "Something went wrong. Please try again shortly.", "js.network_error": "Couldn\u0027t reach the server. Make sure the app is running and try again.", "js.score_above": "Above threshold", "js.score_below": "Below threshold", "js.stamp_approve": "YES", "js.stamp_reject": "NO", "js.submit": "Evaluate application", "js.submitting": "Evaluating\u2026", "js.verdict_approve": "The model predicts this application will be approved.", "js.verdict_reject": "The model predicts this application will be rejected.", "js.years": "{value} years", "lang": "en", "num.decimal": ".", "num.locale": "en-US", "num.percent": "{value}%", "num.thousands": ","}</script>
+  <script src="../static/js/boot.js?v=ef182cb795"></script>
+  <link rel="preload" href="../static/fonts/Archivo-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../static/css/style.css?v=1cc8b9089d">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html" aria-label="KrediTahmin">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="16" cy="16" r="10" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
+          <path d="M11 16.5l3.4 3.4L21.5 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>KrediTahmin</span>
+      </a>
+
+      <div class="topbar__right">
+        <nav class="nav" aria-label="Main menu">
+          <a href="index.html" >Application</a>
+          <a href="model.html" aria-current="page"><span class="nav__long">How does the model work?</span><span class="nav__short">Model</span></a>
+        </nav>
+
+        <div class="toggles">
+          <nav class="switch" aria-label="Language" data-active="1">
+            <span class="switch__thumb" aria-hidden="true"></span>
+            
+            <a class="switch__option" href="../model.html" hreflang="tr" lang="tr" title="Türkçe" aria-label="Türkçe">TR</a>
+            
+            <a class="switch__option" href="model.html" hreflang="en" lang="en" title="English" aria-label="English" aria-current="true">EN</a>
+            
+          </nav>
+
+          <div class="switch switch--theme" role="group" aria-label="Theme">
+            <span class="switch__thumb" aria-hidden="true"></span>
+            <button type="button" class="switch__option" data-theme-value="light" aria-label="Light theme" title="Light theme" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <button type="button" class="switch__option" data-theme-value="dark" aria-label="Dark theme" title="Dark theme" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    
+
+
+
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <div class="hero__text">
+      <h1>How does the model work?</h1>
+      <p class="hero__lede">
+        KrediTahmin runs on a <strong>Gradient Boosting</strong> model. While training it I compared 10 classification algorithms; the biggest gain came not from the choice of algorithm but from new variables I derived from the data.
+      </p>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <div class="rosette"></div>
+    </div>
+  </div>
+</section>
+
+<div class="report">
+
+  <section class="report__block">
+    <h2>Test results</h2>
+    <p class="report__text">Out of 854 applications it never saw during training, the model predicted <strong>852</strong> correctly.</p>
+    <div class="figures">
+      <div class="figure figure--lead">
+        <span class="figure__value">99.77%</span>
+        <span class="figure__label">Accuracy</span>
+      </div>
+      <div class="figure">
+        <span class="figure__value">0.998</span>
+        <span class="figure__label">ROC AUC</span>
+      </div>
+      <div class="figure">
+        <span class="figure__value">95.8%</span>
+        <span class="figure__label">The rule "approve if score ≥ 550" alone</span>
+      </div>
+    </div>
+
+    <table class="matrix" aria-label="Confusion matrix">
+      <caption>Predictions vs. actual outcomes on the test set</caption>
+      <thead>
+        <tr><th scope="col"></th><th scope="col">Model: reject</th><th scope="col">Model: approve</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Actually rejected</th><td class="matrix__ok">322</td><td class="matrix__miss">1</td></tr>
+        <tr><th scope="row">Actually approved</th><td class="matrix__miss">1</td><td class="matrix__ok">530</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="report__block">
+    <h2>Impact of feature engineering</h2>
+    <p class="report__text">
+      Banks look at ratios more than raw amounts. I derived four ratios from the raw columns: total assets, loan / income, loan / assets and, most importantly, <strong>annual payment / annual income</strong>. The chart shows each model's 5-fold cross-validation accuracy without and with these variables.
+    </p>
+
+    <div class="legend" aria-hidden="true">
+      <span class="legend__item"><i class="dot dot--before"></i>Without new variables</span>
+      <span class="legend__item"><i class="dot dot--after"></i>With new variables</span>
+    </div>
+
+    
+    <ul class="dumbbell" role="list">
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Gradient Boosting</span>
+        <span class="dumbbell__track" role="img" aria-label="Gradient Boosting: before 97.8%, after 99.9%">
+          <span class="dumbbell__line" style="left: 94.58272327964862%; width: 5.197657393850662%"></span>
+          <span class="dot dot--before" style="left: 94.58272327964862%" title="Before: 97.8%"></span>
+          <span class="dot dot--after" style="left: 99.78038067349928%" title="After: 99.9%"></span>
+        </span>
+        <span class="dumbbell__value">99.9%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Decision Tree</span>
+        <span class="dumbbell__track" role="img" aria-label="Decision Tree: before 97.2%, after 99.9%">
+          <span class="dumbbell__line" style="left: 92.89897510980968%; width: 6.881405563689597%"></span>
+          <span class="dot dot--before" style="left: 92.89897510980968%" title="Before: 97.2%"></span>
+          <span class="dot dot--after" style="left: 99.78038067349928%" title="After: 99.9%"></span>
+        </span>
+        <span class="dumbbell__value">99.9%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">LightGBM</span>
+        <span class="dumbbell__track" role="img" aria-label="LightGBM: before 98.4%, after 99.9%">
+          <span class="dumbbell__line" style="left: 95.90043923865301%; width: 3.8799414348462733%"></span>
+          <span class="dot dot--before" style="left: 95.90043923865301%" title="Before: 98.4%"></span>
+          <span class="dot dot--after" style="left: 99.78038067349928%" title="After: 99.9%"></span>
+        </span>
+        <span class="dumbbell__value">99.9%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">AdaBoost</span>
+        <span class="dumbbell__track" role="img" aria-label="AdaBoost: before 96.6%, after 99.9%">
+          <span class="dumbbell__line" style="left: 91.50805270863835%; width: 8.199121522694028%"></span>
+          <span class="dot dot--before" style="left: 91.50805270863835%" title="Before: 96.6%"></span>
+          <span class="dot dot--after" style="left: 99.70717423133237%" title="After: 99.9%"></span>
+        </span>
+        <span class="dumbbell__value">99.9%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Random Forest</span>
+        <span class="dumbbell__track" role="img" aria-label="Random Forest: before 97.7%, after 99.8%">
+          <span class="dumbbell__line" style="left: 94.36310395314784%; width: 5.197657393850719%"></span>
+          <span class="dot dot--before" style="left: 94.36310395314784%" title="Before: 97.7%"></span>
+          <span class="dot dot--after" style="left: 99.56076134699856%" title="After: 99.8%"></span>
+        </span>
+        <span class="dumbbell__value">99.8%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">XGBoost</span>
+        <span class="dumbbell__track" role="img" aria-label="XGBoost: before 98.2%, after 99.8%">
+          <span class="dumbbell__line" style="left: 95.53440702781842%; width: 3.8799414348462733%"></span>
+          <span class="dot dot--before" style="left: 95.53440702781842%" title="Before: 98.2%"></span>
+          <span class="dot dot--after" style="left: 99.41434846266469%" title="After: 99.8%"></span>
+        </span>
+        <span class="dumbbell__value">99.8%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">SVM</span>
+        <span class="dumbbell__track" role="img" aria-label="SVM: before 93.9%, after 95.4%">
+          <span class="dumbbell__line" style="left: 84.69985358711565%; width: 3.879941434846259%"></span>
+          <span class="dot dot--before" style="left: 84.69985358711565%" title="Before: 93.9%"></span>
+          <span class="dot dot--after" style="left: 88.57979502196191%" title="After: 95.4%"></span>
+        </span>
+        <span class="dumbbell__value">95.4%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Logistic Regression</span>
+        <span class="dumbbell__track" role="img" aria-label="Logistic Regression: before 91.7%, after 93.6%">
+          <span class="dumbbell__line" style="left: 79.20937042459735%; width: 4.758418740849237%"></span>
+          <span class="dot dot--before" style="left: 79.20937042459735%" title="Before: 91.7%"></span>
+          <span class="dot dot--after" style="left: 83.96778916544659%" title="After: 93.6%"></span>
+        </span>
+        <span class="dumbbell__value">93.6%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">KNN</span>
+        <span class="dumbbell__track" role="img" aria-label="KNN: before 88.6%, after 89.2%">
+          <span class="dumbbell__line" style="left: 71.44948755490482%; width: 1.4641288433382158%"></span>
+          <span class="dot dot--before" style="left: 71.44948755490482%" title="Before: 88.6%"></span>
+          <span class="dot dot--after" style="left: 72.91361639824304%" title="After: 89.2%"></span>
+        </span>
+        <span class="dumbbell__value">89.2%</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Naive Bayes</span>
+        <span class="dumbbell__track" role="img" aria-label="Naive Bayes: before 76.3%, after 62.7%">
+          <span class="dumbbell__line" style="left: 6.6617862371889105%; width: 34.114202049780324%"></span>
+          <span class="dot dot--before" style="left: 40.77598828696924%" title="Before: 76.3%"></span>
+          <span class="dot dot--after" style="left: 6.6617862371889105%" title="After: 62.7%"></span>
+        </span>
+        <span class="dumbbell__value">62.7%</span>
+      </li>
+      
+    </ul>
+    <div class="dumbbell__row dumbbell__axis" aria-hidden="true">
+      <span></span>
+      <span class="dumbbell__ticks">
+        <span style="left: 0.0%">60%</span><span style="left: 25.0%">70%</span><span style="left: 50.0%">80%</span><span style="left: 75.0%">90%</span><span style="left: 100.0%">100%</span>
+      </span>
+      <span></span>
+    </div>
+
+    <p class="report__note">
+      Every tree-based model rose above 99%. Naive Bayes dropped instead: it assumes the variables are independent of each other, while the derived ratios are strongly correlated with the existing columns.
+    </p>
+  </section>
+
+  <section class="report__block">
+    <h2>What does the model look at?</h2>
+    <p class="report__text">Feature importances of the final model. The credit score drives most of the decision and the annual payment / income ratio most of the rest; income, assets, education and employment have almost no effect.</p>
+    
+    <ul class="bars" role="list">
+      
+      <li class="bars__row">
+        <span class="bars__name">Credit score</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 100.0%"></span></span>
+        <span class="bars__value">84.3%</span>
+      </li>
+      
+      <li class="bars__row">
+        <span class="bars__name">Annual payment / annual income</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 15.2%"></span></span>
+        <span class="bars__value">12.8%</span>
+      </li>
+      
+      <li class="bars__row">
+        <span class="bars__name">Loan / total assets</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 1.9%"></span></span>
+        <span class="bars__value">1.6%</span>
+      </li>
+      
+      <li class="bars__row">
+        <span class="bars__name">Loan / annual income</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 1.2%"></span></span>
+        <span class="bars__value">1.0%</span>
+      </li>
+      
+      <li class="bars__row">
+        <span class="bars__name">Loan term</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 0.4%"></span></span>
+        <span class="bars__value">0.3%</span>
+      </li>
+      
+    </ul>
+  </section>
+
+  <section class="report__block">
+    <h2>How it was built</h2>
+    <ol class="steps">
+      
+      <li><strong>Data cleaning.</strong> Whitespace in column names and values was removed; 28 negative residential asset values were set to 0. There were no missing or duplicate records.</li>
+      
+      <li><strong>Exploratory analysis.</strong> A sharp threshold at a credit score of 550 was found. Education, employment and family size have no effect on the approval rate.</li>
+      
+      <li><strong>Feature engineering.</strong> Four ratios were derived. The best model's error dropped about 20-fold.</li>
+      
+      <li><strong>Model comparison.</strong> Logistic Regression, SVM, Naive Bayes, KNN, Decision Tree, Random Forest, AdaBoost, Gradient Boosting, XGBoost and LightGBM were tried.</li>
+      
+      <li><strong>Transformation.</strong> Yeo-Johnson was tried; it was not used because it didn't improve the linear model.</li>
+      
+      <li><strong>Hyperparameter tuning.</strong> The top 6 models were tuned with RandomizedSearchCV; Gradient Boosting, with the highest cross-validation score, was chosen.</li>
+      
+      <li><strong>Deployment.</strong> The model was saved with <code>pickle</code> and connected to this Flask app.</li>
+      
+    </ol>
+  </section>
+
+  <section class="report__block report__block--caveat">
+    <h2>Good to know</h2>
+    <ul class="caveats">
+      
+      <li>Amounts in the dataset are in Indian rupees (₹). The credit score follows India's CIBIL system (300–900), a different scale from other credit scores such as Turkey's Findeks (1–1900).</li>
+      
+      <li>The rules in the data are too sharp to occur in real bank data; it is most likely synthetic. The 99.8% accuracy is specific to this dataset.</li>
+      
+      <li>For applications with a low credit score, the model associates a high payment / income ratio with approval. This pattern comes from the data and does not reflect real banking logic.</li>
+      
+      <li>The app shows a warning when a value falls outside the range of the training data; predictions in that region are not reliable.</li>
+      
+    </ul>
+  </section>
+
+</div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__brand">KrediTahmin</p>
+      <p>This app is an educational project and does not make real lending decisions. The model was trained on the <a href="https://www.kaggle.com/datasets/architsharma01/loan-approval-prediction-dataset">Loan Approval Prediction</a> dataset from Kaggle.</p>
+      <div class="footer__meta">
+        <p>Capstone project of the Data Science and Machine Learning 2026: 100-Day Bootcamp</p>
+        <p><a href="https://github.com/GeneralBuSa/kreditahmin">Source code on GitHub</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../static/js/theme.js?v=34637e5ecb"></script>
+  <script src="../static/js/predictor.js?v=6bbb6c44f4"></script>
+  
+</body>
+</html>

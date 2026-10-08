@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %}{{ t('page.index_title') }}{% endblock %}
+
+{% macro money_field(name, label, placeholder="0") -%}
+<div class="field">
+  <label for="{{ name }}">{{ label }}</label>
+  <div class="input input--suffix">
+    <input type="text" id="{{ name }}" name="{{ name }}" inputmode="numeric" autocomplete="off" data-money placeholder="{{ placeholder }}">
+    <span class="input__suffix" aria-hidden="true">₹</span>
+  </div>
+  <p class="field__error" data-error-for="{{ name }}"></p>
+</div>
+{%- endmacro %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__text">
+      <h1>{{ t('page.hero_title') }}</h1>
+      <p class="hero__lede">
+        {{ t('page.hero_lede', count=fmt_int(info.dataset_size)) }}
+      </p>
+      <div class="examples" role="group" aria-label="{{ t('page.examples_label') }}">
+        <button type="button" class="button button--ghost" data-example="approved">{{ t('page.example_approved') }}</button>
+        <button type="button" class="button button--ghost" data-example="rejected">{{ t('page.example_rejected') }}</button>
+      </div>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <div class="rosette"></div>
+    </div>
+  </div>
+</section>
+
+<div class="workspace">
+  <form id="application" class="panel" novalidate data-endpoint="{{ url_for('predict', lang=lang) }}">
+
+    <section class="panel__section panel__section--score" aria-labelledby="score-title">
+      <div class="section-head">
+        <h2 id="score-title">{{ t('page.score_title') }}</h2>
+        <p>{{ t('page.score_help') }}</p>
+      </div>
+
+      <div class="score">
+        <div class="score__readout">
+          <output class="score__value" id="score-output" for="cibil_score_range">650</output>
+          <span class="score__status" id="score-status"></span>
+        </div>
+        <div class="score__track-wrap">
+          <input type="range" id="cibil_score_range" min="300" max="900" step="1" value="650"
+                 aria-label="{{ t('page.score_title') }}" class="score__range">
+          <div class="score__threshold" style="--pos: {{ ((550 - 300) / 600)|round(4) }}">
+            <span>{{ t('page.score_threshold') }}</span>
+          </div>
+        </div>
+        <div class="score__scale" aria-hidden="true"><span>300</span><span>600</span><span>900</span></div>
+        <input type="hidden" id="cibil_score" name="cibil_score" value="650">
+        <p class="field__error" data-error-for="cibil_score"></p>
+      </div>
+    </section>
+
+    <section class="panel__section" aria-labelledby="loan-title">
+      <div class="section-head">
+        <h2 id="loan-title">{{ t('page.loan_title') }}</h2>
+      </div>
+      <div class="grid">
+        {{ money_field("loan_amount", t('page.loan_amount'), fmt_int(15000000)) }}
+        <div class="field">
+          <label for="loan_term">{{ t('page.loan_term') }}</label>
+          <div class="input input--suffix">
+            <input type="text" id="loan_term" name="loan_term" inputmode="numeric" autocomplete="off" placeholder="10">
+            <span class="input__suffix" aria-hidden="true">{{ t('page.years_suffix') }}</span>
+          </div>
+          <p class="field__help">{{ t('page.term_help') }}</p>
+          <p class="field__error" data-error-for="loan_term"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel__section" aria-labelledby="income-title">
+      <div class="section-head">
+        <h2 id="income-title">{{ t('page.income_title') }}</h2>
+      </div>
+      <div class="grid">
+        {{ money_field("income_annum", t('page.income'), fmt_int(5000000)) }}
+        <div class="field">
+          <label for="no_of_dependents">{{ t('page.dependents') }}</label>
+          <div class="stepper">
+            <button type="button" class="stepper__button" data-step="-1" aria-label="{{ t('page.decrease') }}">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <input type="text" id="no_of_dependents" name="no_of_dependents" inputmode="numeric" autocomplete="off" value="0">
+            <button type="button" class="stepper__button" data-step="1" aria-label="{{ t('page.increase') }}">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <p class="field__error" data-error-for="no_of_dependents"></p>
+        </div>
+
+        <fieldset class="field segmented">
+          <legend>{{ t('page.education') }}</legend>
+          <div class="segmented__options">
+            <label><input type="radio" name="education" value="Graduate" checked><span>{{ t('page.graduate') }}</span></label>
+            <label><input type="radio" name="education" value="Not Graduate"><span>{{ t('page.not_graduate') }}</span></label>
+          </div>
+          <p class="field__error" data-error-for="education"></p>
+        </fieldset>
+
+        <fieldset class="field segmented">
+          <legend>{{ t('page.employment') }}</legend>
+          <div class="segmented__options">
+            <label><input type="radio" name="self_employed" value="No" checked><span>{{ t('page.salaried') }}</span></label>
+            <label><input type="radio" name="self_employed" value="Yes"><span>{{ t('page.self_employed') }}</span></label>
+          </div>
+          <p class="field__error" data-error-for="self_employed"></p>
+        </fieldset>
+      </div>
+    </section>
+
+    <section class="panel__section" aria-labelledby="assets-title">
+      <div class="section-head">
+        <h2 id="assets-title">{{ t('page.assets_title') }}</h2>
+        <p>{{ t('page.assets_help') }}</p>
+      </div>
+      <div class="grid">
+        {{ money_field("residential_assets_value", t('page.asset_residential')) }}
+        {{ money_field("commercial_assets_value", t('page.asset_commercial')) }}
+        {{ money_field("luxury_assets_value", t('page.asset_luxury')) }}
+        {{ money_field("bank_asset_value", t('page.asset_bank')) }}
+      </div>
+    </section>
+
+    <div class="panel__footer">
+      <button type="submit" class="button button--primary" id="submit-button">{{ t('js.submit') }}</button>
+      <p class="form-status" id="form-status" role="status"></p>
+    </div>
+  </form>
+
+  <aside class="slip" aria-labelledby="slip-title">
+    <div class="slip__band" aria-hidden="true"></div>
+    <div class="slip__body">
+      <div class="slip__head">
+        <h2 id="slip-title">{{ t('page.slip_title') }}</h2>
+        <span class="slip__badge" id="slip-badge">{{ t('js.badge_waiting') }}</span>
+      </div>
+
+      <dl class="ratios">
+        <div><dt>{{ t('page.ratio_payment') }}</dt><dd id="ratio-payment">—</dd></div>
+        <div><dt>{{ t('page.ratio_income') }}</dt><dd id="ratio-income">—</dd></div>
+        <div><dt>{{ t('page.ratio_assets') }}</dt><dd id="ratio-assets">—</dd></div>
+      </dl>
+
+      <div class="slip__result" aria-live="polite">
+        <div class="slip__empty" id="result-empty">
+          <p>{{ t('page.result_empty') }}</p>
+        </div>
+
+        <div class="verdict" id="result-filled" hidden>
+          <div class="stamp" id="stamp"><span id="stamp-text"></span></div>
+          <p class="verdict__headline" id="verdict-headline"></p>
+
+          <div class="meter">
+            <div class="meter__labels"><span>{{ t('page.probability') }}</span><strong id="probability-text"></strong></div>
+            <div class="meter__bar"><div class="meter__fill" id="probability-fill"></div><div class="meter__mid" aria-hidden="true"></div></div>
+          </div>
+
+          <ul class="factors" id="factors"></ul>
+          <ul class="warnings" id="warnings"></ul>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}

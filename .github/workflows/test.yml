@@ -1,0 +1,32 @@
+name: Testler
+
+on:
+  push:
+  pull_request:
+
+# Testler yalnızca kodu okur; iş akışına en az yetki verilir.
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      # predictor.js (GitHub Pages sürümü) ile Flask API'sini karşılaştıran test için.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: pip install -r requirements-dev.txt
+
+      - run: pytest -v

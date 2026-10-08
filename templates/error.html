@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · KrediTahmin{% endblock %}
+
+{% block content %}
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <div class="hero__text">
+      <p class="hero__lede">{{ t('http.code', code=code) }}</p>
+      <h1>{{ title }}</h1>
+      <p class="hero__lede">{{ text }}</p>
+      <div class="examples">
+        <a class="button button--primary" href="{{ url_for('index', lang=lang) }}">{{ t('http.back') }}</a>
+      </div>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <div class="rosette"></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

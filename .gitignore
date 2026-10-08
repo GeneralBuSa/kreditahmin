@@ -1,0 +1,55 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ---------- Sanal ortamlar ----------
+.venv/
+venv/
+env/
+ENV/
+
+# ---------- Ortam değişkenleri / gizli bilgiler ----------
+.env
+.env.*
+!.env.example
+
+# ---------- Test, coverage ve linter önbellekleri ----------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# ---------- Jupyter ----------
+.ipynb_checkpoints/
+
+# ---------- Veri seti ----------
+# Kaggle'dan indirilir (README'deki "Modeli yeniden eğitmek" bölümü); repoya eklenmez.
+# model/ klasöründeki loan_model.pkl ve model_info.json ise uygulama için gerekli, bilerek repoda.
+data/
+loan_approval_dataset.csv
+
+# ---------- Editörler ----------
+.idea/
+.vscode/
+*.swp
+*~
+
+# ---------- İşletim sistemi ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Loglar ----------
+*.log
+
+# ---------- Yerel araç ayarları ----------
+.claude/

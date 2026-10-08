@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}{{ t('page.nav_model_long') }} · KrediTahmin{% endblock %}
+
+{% block content %}
+{% set m = info.test_metrics %}
+{% set cm = info.confusion_matrix %}
+{% set correct = cm[0][0] + cm[1][1] %}
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <div class="hero__text">
+      <h1>{{ t('page.nav_model_long') }}</h1>
+      <p class="hero__lede">
+        {{ t('page.about_lede', model=info.model_name) }}
+      </p>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <div class="rosette"></div>
+    </div>
+  </div>
+</section>
+
+<div class="report">
+
+  <section class="report__block">
+    <h2>{{ t('page.test_title') }}</h2>
+    <p class="report__text">{{ t('page.test_text', total=fmt_int(info.test_size), correct=fmt_int(correct)) }}</p>
+    <div class="figures">
+      <div class="figure figure--lead">
+        <span class="figure__value">{{ pct(m.accuracy, 2) }}</span>
+        <span class="figure__label">{{ t('page.accuracy') }}</span>
+      </div>
+      <div class="figure">
+        <span class="figure__value">{{ fmt_dec(m.roc_auc, digits=3) }}</span>
+        <span class="figure__label">ROC AUC</span>
+      </div>
+      <div class="figure">
+        <span class="figure__value">{{ pct(info.baseline_accuracy) }}</span>
+        <span class="figure__label">{{ t('page.baseline') }}</span>
+      </div>
+    </div>
+
+    <table class="matrix" aria-label="{{ t('page.matrix_label') }}">
+      <caption>{{ t('page.matrix_caption') }}</caption>
+      <thead>
+        <tr><th scope="col"></th><th scope="col">{{ t('page.matrix_pred_reject') }}</th><th scope="col">{{ t('page.matrix_pred_approve') }}</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">{{ t('page.matrix_true_reject') }}</th><td class="matrix__ok">{{ cm[0][0] }}</td><td class="matrix__miss">{{ cm[0][1] }}</td></tr>
+        <tr><th scope="row">{{ t('page.matrix_true_approve') }}</th><td class="matrix__miss">{{ cm[1][0] }}</td><td class="matrix__ok">{{ cm[1][1] }}</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="report__block">
+    <h2>{{ t('page.fe_title') }}</h2>
+    <p class="report__text">
+      {{ t('page.fe_text') }}
+    </p>
+
+    <div class="legend" aria-hidden="true">
+      <span class="legend__item"><i class="dot dot--before"></i>{{ t('page.legend_before') }}</span>
+      <span class="legend__item"><i class="dot dot--after"></i>{{ t('page.legend_after') }}</span>
+    </div>
+
+    {% set lo = 0.6 %}{% set hi = 1.0 %}
+    <ul class="dumbbell" role="list">
+      {% for row in info.model_comparison %}
+      {% set a = ((row.without_fe - lo) / (hi - lo) * 100) %}
+      {% set b = ((row.with_fe - lo) / (hi - lo) * 100) %}
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">{{ row.model }}</span>
+        <span class="dumbbell__track" role="img" aria-label="{{ t('page.dumbbell_label', model=row.model, before=pct(row.without_fe), after=pct(row.with_fe)) }}">
+          <span class="dumbbell__line" style="left: {{ [a, b]|min }}%; width: {{ (a - b)|abs }}%"></span>
+          <span class="dot dot--before" style="left: {{ a }}%" title="{{ t('page.dumbbell_before', value=pct(row.without_fe)) }}"></span>
+          <span class="dot dot--after" style="left: {{ b }}%" title="{{ t('page.dumbbell_after', value=pct(row.with_fe)) }}"></span>
+        </span>
+        <span class="dumbbell__value">{{ pct(row.with_fe) }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="dumbbell__row dumbbell__axis" aria-hidden="true">
+      <span></span>
+      <span class="dumbbell__ticks">
+        {% for tick in [60, 70, 80, 90, 100] %}<span style="left: {{ (tick - 60) / 40 * 100 }}%">{{ pct(tick / 100, digits=0) }}</span>{% endfor %}
+      </span>
+      <span></span>
+    </div>
+
+    <p class="report__note">
+      {{ t('page.fe_note') }}
+    </p>
+  </section>
+
+  <section class="report__block">
+    <h2>{{ t('page.importance_title') }}</h2>
+    <p class="report__text">{{ t('page.importance_text') }}</p>
+    {% set top = importances[0].value %}
+    <ul class="bars" role="list">
+      {% for item in importances if item.value > 0.0005 %}
+      <li class="bars__row">
+        <span class="bars__name">{{ item.label }}</span>
+        <span class="bars__track"><span class="bars__fill" style="width: {{ (item.value / top * 100)|round(1) }}%"></span></span>
+        <span class="bars__value">{{ pct(item.value) }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="report__block">
+    <h2>{{ t('page.process_title') }}</h2>
+    <ol class="steps">
+      {% for n in range(1, 8) %}
+      <li>{{ t('page.step_' ~ n, model=info.model_name) }}</li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <section class="report__block report__block--caveat">
+    <h2>{{ t('page.caveats_title') }}</h2>
+    <ul class="caveats">
+      {% for n in range(1, 5) %}
+      <li>{{ t('page.caveat_' ~ n) }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+</div>
+{% endblock %}

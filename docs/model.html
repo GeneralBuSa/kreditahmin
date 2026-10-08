@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; script-src &#39;self&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;; form-action &#39;self&#39;">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Model nasıl çalışıyor? · KrediTahmin</title>
+  <meta name="description" content="Kredi başvurusunun onaylanıp onaylanmayacağını tahmin eden makine öğrenmesi uygulaması.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="KrediTahmin">
+  <meta property="og:title" content="Model nasıl çalışıyor? · KrediTahmin">
+  <meta property="og:description" content="Kredi başvurusunun onaylanıp onaylanmayacağını tahmin eden makine öğrenmesi uygulaması.">
+  <meta property="og:url" content="https://generalbusa.github.io/kreditahmin/model">
+  <meta property="og:image" content="https://generalbusa.github.io/kreditahmin/static/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="KrediTahmin: Kredi başvurunuz onaylanır mı? %99,77 test doğruluğu.">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" hreflang="tr" href="model.html">
+  <link rel="alternate" hreflang="en" href="en/model.html">
+  
+  <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="static/favicon.svg" type="image/svg+xml">
+  <meta name="kredi-model" content="model.json">
+  <script id="kredi-i18n" type="application/json">{"js.badge_approve": "Onaylan\u0131r", "js.badge_reject": "Reddedilir", "js.badge_stale": "Bilgiler de\u011fi\u015fti", "js.badge_waiting": "Bekleniyor", "js.form_invalid": "Baz\u0131 alanlar eksik veya hatal\u0131. \u0130\u015faretli alanlar\u0131 d\u00fczeltin.", "js.generic_error": "Bir hata olu\u015ftu. Biraz sonra tekrar deneyin.", "js.network_error": "Sunucuya ula\u015f\u0131lamad\u0131. Uygulaman\u0131n \u00e7al\u0131\u015ft\u0131\u011f\u0131ndan emin olup tekrar deneyin.", "js.score_above": "E\u015fi\u011fin \u00fczerinde", "js.score_below": "E\u015fi\u011fin alt\u0131nda", "js.stamp_approve": "ONAY", "js.stamp_reject": "RET", "js.submit": "Ba\u015fvuruyu de\u011ferlendir", "js.submitting": "De\u011ferlendiriliyor\u2026", "js.verdict_approve": "Model bu ba\u015fvurunun onaylanaca\u011f\u0131n\u0131 tahmin ediyor.", "js.verdict_reject": "Model bu ba\u015fvurunun reddedilece\u011fini tahmin ediyor.", "js.years": "{value} y\u0131l", "lang": "tr", "num.decimal": ",", "num.locale": "tr-TR", "num.percent": "%{value}", "num.thousands": "."}</script>
+  <script src="static/js/boot.js?v=ef182cb795"></script>
+  <link rel="preload" href="static/fonts/Archivo-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="static/css/style.css?v=1cc8b9089d">
+</head>
+<body>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html" aria-label="KrediTahmin">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="16" cy="16" r="10" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
+          <path d="M11 16.5l3.4 3.4L21.5 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>KrediTahmin</span>
+      </a>
+
+      <div class="topbar__right">
+        <nav class="nav" aria-label="Ana menü">
+          <a href="index.html" >Başvuru</a>
+          <a href="model.html" aria-current="page"><span class="nav__long">Model nasıl çalışıyor?</span><span class="nav__short">Model</span></a>
+        </nav>
+
+        <div class="toggles">
+          <nav class="switch" aria-label="Dil" data-active="0">
+            <span class="switch__thumb" aria-hidden="true"></span>
+            
+            <a class="switch__option" href="model.html" hreflang="tr" lang="tr" title="Türkçe" aria-label="Türkçe" aria-current="true">TR</a>
+            
+            <a class="switch__option" href="en/model.html" hreflang="en" lang="en" title="English" aria-label="English">EN</a>
+            
+          </nav>
+
+          <div class="switch switch--theme" role="group" aria-label="Tema">
+            <span class="switch__thumb" aria-hidden="true"></span>
+            <button type="button" class="switch__option" data-theme-value="light" aria-label="Aydınlık tema" title="Aydınlık tema" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <button type="button" class="switch__option" data-theme-value="dark" aria-label="Karanlık tema" title="Karanlık tema" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    
+
+
+
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <div class="hero__text">
+      <h1>Model nasıl çalışıyor?</h1>
+      <p class="hero__lede">
+        KrediTahmin'in arkasında bir <strong>Gradient Boosting</strong> modeli var. Modeli eğitirken 10 farklı sınıflandırma algoritmasını karşılaştırdım; en büyük farkı ise algoritma seçimi değil, veriden türettiğim yeni değişkenler yarattı.
+      </p>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <div class="rosette"></div>
+    </div>
+  </div>
+</section>
+
+<div class="report">
+
+  <section class="report__block">
+    <h2>Test sonucu</h2>
+    <p class="report__text">Model, eğitimde hiç görmediği 854 başvurudan <strong>852</strong> tanesini doğru tahmin etti.</p>
+    <div class="figures">
+      <div class="figure figure--lead">
+        <span class="figure__value">%99,77</span>
+        <span class="figure__label">Doğruluk (accuracy)</span>
+      </div>
+      <div class="figure">
+        <span class="figure__value">0,998</span>
+        <span class="figure__label">ROC AUC</span>
+      </div>
+      <div class="figure">
+        <span class="figure__value">%95,8</span>
+        <span class="figure__label">Sadece "skor ≥ 550 ise onayla" kuralı</span>
+      </div>
+    </div>
+
+    <table class="matrix" aria-label="Karışıklık matrisi">
+      <caption>Test setinde tahminler ve gerçek sonuçlar</caption>
+      <thead>
+        <tr><th scope="col"></th><th scope="col">Model: reddet</th><th scope="col">Model: onayla</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Gerçekte reddedildi</th><td class="matrix__ok">322</td><td class="matrix__miss">1</td></tr>
+        <tr><th scope="row">Gerçekte onaylandı</th><td class="matrix__miss">1</td><td class="matrix__ok">530</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="report__block">
+    <h2>Feature engineering etkisi</h2>
+    <p class="report__text">
+      Bankalar ham tutarlardan çok oranlara bakar. Ham sütunlardan dört oran türettim: toplam varlık, kredi / gelir, kredi / varlık ve en önemlisi <strong>yıllık taksit / yıllık gelir</strong>. Grafikte her modelin bu değişkenler eklenmeden ve eklendikten sonraki 5-fold cross validation doğruluğu var.
+    </p>
+
+    <div class="legend" aria-hidden="true">
+      <span class="legend__item"><i class="dot dot--before"></i>Yeni değişkenler olmadan</span>
+      <span class="legend__item"><i class="dot dot--after"></i>Yeni değişkenlerle</span>
+    </div>
+
+    
+    <ul class="dumbbell" role="list">
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Gradient Boosting</span>
+        <span class="dumbbell__track" role="img" aria-label="Gradient Boosting: önce %97,8, sonra %99,9">
+          <span class="dumbbell__line" style="left: 94.58272327964862%; width: 5.197657393850662%"></span>
+          <span class="dot dot--before" style="left: 94.58272327964862%" title="Önce: %97,8"></span>
+          <span class="dot dot--after" style="left: 99.78038067349928%" title="Sonra: %99,9"></span>
+        </span>
+        <span class="dumbbell__value">%99,9</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Decision Tree</span>
+        <span class="dumbbell__track" role="img" aria-label="Decision Tree: önce %97,2, sonra %99,9">
+          <span class="dumbbell__line" style="left: 92.89897510980968%; width: 6.881405563689597%"></span>
+          <span class="dot dot--before" style="left: 92.89897510980968%" title="Önce: %97,2"></span>
+          <span class="dot dot--after" style="left: 99.78038067349928%" title="Sonra: %99,9"></span>
+        </span>
+        <span class="dumbbell__value">%99,9</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">LightGBM</span>
+        <span class="dumbbell__track" role="img" aria-label="LightGBM: önce %98,4, sonra %99,9">
+          <span class="dumbbell__line" style="left: 95.90043923865301%; width: 3.8799414348462733%"></span>
+          <span class="dot dot--before" style="left: 95.90043923865301%" title="Önce: %98,4"></span>
+          <span class="dot dot--after" style="left: 99.78038067349928%" title="Sonra: %99,9"></span>
+        </span>
+        <span class="dumbbell__value">%99,9</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">AdaBoost</span>
+        <span class="dumbbell__track" role="img" aria-label="AdaBoost: önce %96,6, sonra %99,9">
+          <span class="dumbbell__line" style="left: 91.50805270863835%; width: 8.199121522694028%"></span>
+          <span class="dot dot--before" style="left: 91.50805270863835%" title="Önce: %96,6"></span>
+          <span class="dot dot--after" style="left: 99.70717423133237%" title="Sonra: %99,9"></span>
+        </span>
+        <span class="dumbbell__value">%99,9</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Random Forest</span>
+        <span class="dumbbell__track" role="img" aria-label="Random Forest: önce %97,7, sonra %99,8">
+          <span class="dumbbell__line" style="left: 94.36310395314784%; width: 5.197657393850719%"></span>
+          <span class="dot dot--before" style="left: 94.36310395314784%" title="Önce: %97,7"></span>
+          <span class="dot dot--after" style="left: 99.56076134699856%" title="Sonra: %99,8"></span>
+        </span>
+        <span class="dumbbell__value">%99,8</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">XGBoost</span>
+        <span class="dumbbell__track" role="img" aria-label="XGBoost: önce %98,2, sonra %99,8">
+          <span class="dumbbell__line" style="left: 95.53440702781842%; width: 3.8799414348462733%"></span>
+          <span class="dot dot--before" style="left: 95.53440702781842%" title="Önce: %98,2"></span>
+          <span class="dot dot--after" style="left: 99.41434846266469%" title="Sonra: %99,8"></span>
+        </span>
+        <span class="dumbbell__value">%99,8</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">SVM</span>
+        <span class="dumbbell__track" role="img" aria-label="SVM: önce %93,9, sonra %95,4">
+          <span class="dumbbell__line" style="left: 84.69985358711565%; width: 3.879941434846259%"></span>
+          <span class="dot dot--before" style="left: 84.69985358711565%" title="Önce: %93,9"></span>
+          <span class="dot dot--after" style="left: 88.57979502196191%" title="Sonra: %95,4"></span>
+        </span>
+        <span class="dumbbell__value">%95,4</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Logistic Regression</span>
+        <span class="dumbbell__track" role="img" aria-label="Logistic Regression: önce %91,7, sonra %93,6">
+          <span class="dumbbell__line" style="left: 79.20937042459735%; width: 4.758418740849237%"></span>
+          <span class="dot dot--before" style="left: 79.20937042459735%" title="Önce: %91,7"></span>
+          <span class="dot dot--after" style="left: 83.96778916544659%" title="Sonra: %93,6"></span>
+        </span>
+        <span class="dumbbell__value">%93,6</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">KNN</span>
+        <span class="dumbbell__track" role="img" aria-label="KNN: önce %88,6, sonra %89,2">
+          <span class="dumbbell__line" style="left: 71.44948755490482%; width: 1.4641288433382158%"></span>
+          <span class="dot dot--before" style="left: 71.44948755490482%" title="Önce: %88,6"></span>
+          <span class="dot dot--after" style="left: 72.91361639824304%" title="Sonra: %89,2"></span>
+        </span>
+        <span class="dumbbell__value">%89,2</span>
+      </li>
+      
+      
+      
+      <li class="dumbbell__row">
+        <span class="dumbbell__name">Naive Bayes</span>
+        <span class="dumbbell__track" role="img" aria-label="Naive Bayes: önce %76,3, sonra %62,7">
+          <span class="dumbbell__line" style="left: 6.6617862371889105%; width: 34.114202049780324%"></span>
+          <span class="dot dot--before" style="left: 40.77598828696924%" title="Önce: %76,3"></span>
+          <span class="dot dot--after" style="left: 6.6617862371889105%" title="Sonra: %62,7"></span>
+        </span>
+        <span class="dumbbell__value">%62,7</span>
+      </li>
+      
+    </ul>
+    <div class="dumbbell__row dumbbell__axis" aria-hidden="true">
+      <span></span>
+      <span class="dumbbell__ticks">
+        <span style="left: 0.0%">%60</span><span style="left: 25.0%">%70</span><span style="left: 50.0%">%80</span><span style="left: 75.0%">%90</span><span style="left: 100.0%">%100</span>
+      </span>
+      <span></span>
+    </div>
+
+    <p class="report__note">
+      Ağaç tabanlı modellerin hepsi %99'un üzerine çıktı. Naive Bayes ise düştü: değişkenlerin birbirinden bağımsız olduğunu varsayıyor, türetilen oranlar ise mevcut sütunlarla güçlü bir şekilde ilişkili.
+    </p>
+  </section>
+
+  <section class="report__block">
+    <h2>Model neye bakıyor?</h2>
+    <p class="report__text">Final modelin değişken önem dereceleri. Kararın büyük kısmını kredi skoru, kalanını yıllık taksit / gelir oranı belirliyor; gelir, varlıklar, eğitim ve meslek bilgisinin etkisi neredeyse yok.</p>
+    
+    <ul class="bars" role="list">
+      
+      <li class="bars__row">
+        <span class="bars__name">Kredi skoru</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 100.0%"></span></span>
+        <span class="bars__value">%84,3</span>
+      </li>
+      
+      <li class="bars__row">
+        <span class="bars__name">Yıllık taksit / yıllık gelir</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 15.2%"></span></span>
+        <span class="bars__value">%12,8</span>
+      </li>
+      
+      <li class="bars__row">
+        <span class="bars__name">Kredi / toplam varlık</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 1.9%"></span></span>
+        <span class="bars__value">%1,6</span>
+      </li>
+      
+      <li class="bars__row">
+        <span class="bars__name">Kredi / yıllık gelir</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 1.2%"></span></span>
+        <span class="bars__value">%1,0</span>
+      </li>
+      
+      <li class="bars__row">
+        <span class="bars__name">Vade</span>
+        <span class="bars__track"><span class="bars__fill" style="width: 0.4%"></span></span>
+        <span class="bars__value">%0,3</span>
+      </li>
+      
+    </ul>
+  </section>
+
+  <section class="report__block">
+    <h2>Geliştirme süreci</h2>
+    <ol class="steps">
+      
+      <li><strong>Veri temizliği.</strong> Sütun adlarındaki ve değerlerdeki boşluklar temizlendi; 28 negatif konut varlığı 0 olarak düzeltildi. Eksik veya tekrar eden kayıt yoktu.</li>
+      
+      <li><strong>Keşifsel analiz.</strong> Kredi skorunda 550'de keskin bir eşik bulundu. Eğitim durumu, meslek ve aile büyüklüğünün onay oranına etkisi yok.</li>
+      
+      <li><strong>Feature engineering.</strong> Dört oran türetildi. En iyi modelin hatası yaklaşık 20 kat azaldı.</li>
+      
+      <li><strong>Model karşılaştırma.</strong> Logistic Regression, SVM, Naive Bayes, KNN, Decision Tree, Random Forest, AdaBoost, Gradient Boosting, XGBoost ve LightGBM denendi.</li>
+      
+      <li><strong>Transformation.</strong> Yeo-Johnson denendi; lineer modeli iyileştirmediği için kullanılmadı.</li>
+      
+      <li><strong>Hyperparameter tuning.</strong> En iyi 6 model RandomizedSearchCV ile ayarlandı; cross validation skoru en yüksek olan Gradient Boosting seçildi.</li>
+      
+      <li><strong>Yayına alma.</strong> Model <code>pickle</code> ile kaydedildi ve bu Flask uygulamasına bağlandı.</li>
+      
+    </ol>
+  </section>
+
+  <section class="report__block report__block--caveat">
+    <h2>Bilmeniz gerekenler</h2>
+    <ul class="caveats">
+      
+      <li>Veri setindeki tutarlar Hint Rupisi (₹) cinsinden. Kredi skoru, Hindistan'daki CIBIL sistemine (300–900) göre; Türkiye'deki Findeks notuyla (1–1900) aynı ölçekte değildir.</li>
+      
+      <li>Verideki kurallar gerçek banka verisinde görülemeyecek kadar keskin; büyük ihtimalle sentetik bir veri. %99,8'lik başarı bu veri setine özgü.</li>
+      
+      <li>Düşük kredi skorlu başvurularda model, yüksek taksit / gelir oranını onayla ilişkilendiriyor. Bu desen veriden geliyor; gerçek bankacılık mantığını yansıtmıyor.</li>
+      
+      <li>Eğitim verisindeki aralığın dışında kalan değerler girildiğinde uygulama uyarı gösterir; o bölgedeki tahminler güvenilir değildir.</li>
+      
+    </ul>
+  </section>
+
+</div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__brand">KrediTahmin</p>
+      <p>Bu uygulama bir eğitim projesidir ve gerçek bir kredi kararı vermez. Model, Kaggle'daki <a href="https://www.kaggle.com/datasets/architsharma01/loan-approval-prediction-dataset">Loan Approval Prediction</a> veri setiyle eğitildi.</p>
+      <div class="footer__meta">
+        <p>Veri Bilimi ve Makine Öğrenmesi 2026: 100 Günlük Kamp kapanış projesi</p>
+        <p><a href="https://github.com/GeneralBuSa/kreditahmin">Kaynak kod GitHub'da</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="static/js/theme.js?v=34637e5ecb"></script>
+  <script src="static/js/predictor.js?v=6bbb6c44f4"></script>
+  
+</body>
+</html>

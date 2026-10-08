@@ -1,0 +1,240 @@
+{
+  "model_name": "Gradient Boosting",
+  "sklearn_version": "1.9.1",
+  "dataset_size": 4269,
+  "approval_rate": 0.622159756383228,
+  "train_size": 3415,
+  "test_size": 854,
+  "baseline_accuracy": 0.9578454332552693,
+  "test_metrics": {
+    "accuracy": 0.9976580796252927,
+    "precision": 0.9981167608286252,
+    "recall": 0.9981167608286252,
+    "f1": 0.9981167608286252,
+    "roc_auc": 0.9981225912904561
+  },
+  "confusion_matrix": [
+    [
+      322,
+      1
+    ],
+    [
+      1,
+      530
+    ]
+  ],
+  "model_comparison": [
+    {
+      "model": "Gradient Boosting",
+      "without_fe": 0.9783308931185944,
+      "with_fe": 0.9991215226939971
+    },
+    {
+      "model": "Decision Tree",
+      "without_fe": 0.9715959004392387,
+      "with_fe": 0.9991215226939971
+    },
+    {
+      "model": "LightGBM",
+      "without_fe": 0.983601756954612,
+      "with_fe": 0.9991215226939971
+    },
+    {
+      "model": "AdaBoost",
+      "without_fe": 0.9660322108345534,
+      "with_fe": 0.9988286969253295
+    },
+    {
+      "model": "Random Forest",
+      "without_fe": 0.9774524158125913,
+      "with_fe": 0.9982430453879942
+    },
+    {
+      "model": "XGBoost",
+      "without_fe": 0.9821376281112737,
+      "with_fe": 0.9976573938506588
+    },
+    {
+      "model": "SVM",
+      "without_fe": 0.9387994143484626,
+      "with_fe": 0.9543191800878477
+    },
+    {
+      "model": "Logistic Regression",
+      "without_fe": 0.9168374816983894,
+      "with_fe": 0.9358711566617863
+    },
+    {
+      "model": "KNN",
+      "without_fe": 0.8857979502196193,
+      "with_fe": 0.8916544655929721
+    },
+    {
+      "model": "Naive Bayes",
+      "without_fe": 0.7631039531478769,
+      "with_fe": 0.6266471449487556
+    }
+  ],
+  "tuning_results": [
+    {
+      "Model": "Gradient Boosting",
+      "Tuning öncesi CV": 0.9991215226939971,
+      "Tuning sonrası CV": 0.9997071742313324,
+      "Test accuracy": 0.9976580796252927
+    },
+    {
+      "Model": "AdaBoost",
+      "Tuning öncesi CV": 0.9988286969253295,
+      "Tuning sonrası CV": 0.9994143484626647,
+      "Test accuracy": 0.9976580796252927
+    },
+    {
+      "Model": "LightGBM",
+      "Tuning öncesi CV": 0.9991215226939971,
+      "Tuning sonrası CV": 0.9994143484626647,
+      "Test accuracy": 0.9988290398126464
+    },
+    {
+      "Model": "Decision Tree",
+      "Tuning öncesi CV": 0.9991215226939971,
+      "Tuning sonrası CV": 0.9991215226939971,
+      "Test accuracy": 0.9976580796252927
+    },
+    {
+      "Model": "Random Forest",
+      "Tuning öncesi CV": 0.9982430453879942,
+      "Tuning sonrası CV": 0.9991215226939971,
+      "Test accuracy": 0.9988290398126464
+    },
+    {
+      "Model": "XGBoost",
+      "Tuning öncesi CV": 0.9976573938506588,
+      "Tuning sonrası CV": 0.997657393850659,
+      "Test accuracy": 0.9976580796252927
+    }
+  ],
+  "feature_importances": [
+    {
+      "feature": "cibil_score",
+      "importance": 0.8430618167996945
+    },
+    {
+      "feature": "yearly_payment_to_income",
+      "importance": 0.12808507809708083
+    },
+    {
+      "feature": "loan_to_assets",
+      "importance": 0.015705297651567737
+    },
+    {
+      "feature": "loan_to_income",
+      "importance": 0.00973812270698137
+    },
+    {
+      "feature": "loan_term",
+      "importance": 0.003409684744675547
+    },
+    {
+      "feature": "self_employed",
+      "importance": 0.0
+    },
+    {
+      "feature": "no_of_dependents",
+      "importance": 0.0
+    },
+    {
+      "feature": "income_annum",
+      "importance": 0.0
+    },
+    {
+      "feature": "loan_amount",
+      "importance": 0.0
+    },
+    {
+      "feature": "education",
+      "importance": 0.0
+    },
+    {
+      "feature": "residential_assets_value",
+      "importance": 0.0
+    },
+    {
+      "feature": "bank_asset_value",
+      "importance": 0.0
+    },
+    {
+      "feature": "luxury_assets_value",
+      "importance": 0.0
+    },
+    {
+      "feature": "commercial_assets_value",
+      "importance": 0.0
+    },
+    {
+      "feature": "total_assets",
+      "importance": 0.0
+    }
+  ],
+  "feature_ranges": {
+    "no_of_dependents": [
+      0.0,
+      5.0
+    ],
+    "education": [
+      0.0,
+      1.0
+    ],
+    "self_employed": [
+      0.0,
+      1.0
+    ],
+    "income_annum": [
+      200000.0,
+      9900000.0
+    ],
+    "loan_amount": [
+      300000.0,
+      39500000.0
+    ],
+    "loan_term": [
+      2.0,
+      20.0
+    ],
+    "cibil_score": [
+      300.0,
+      900.0
+    ],
+    "residential_assets_value": [
+      0.0,
+      29100000.0
+    ],
+    "commercial_assets_value": [
+      0.0,
+      19000000.0
+    ],
+    "luxury_assets_value": [
+      300000.0,
+      39200000.0
+    ],
+    "bank_asset_value": [
+      0.0,
+      14700000.0
+    ],
+    "total_assets": [
+      500000.0,
+      90700000.0
+    ],
+    "loan_to_income": [
+      1.5,
+      4.0
+    ],
+    "loan_to_assets": [
+      0.17647058823529413,
+      1.3333333333333333
+    ],
+    "yearly_payment_to_income": [
+      0.075,
+      2.0
+    ]
+  }
+}

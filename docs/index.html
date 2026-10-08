@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; script-src &#39;self&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;; form-action &#39;self&#39;">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>KrediTahmin: Kredi başvurunuz onaylanır mı?</title>
+  <meta name="description" content="Kredi başvurusunun onaylanıp onaylanmayacağını tahmin eden makine öğrenmesi uygulaması.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="KrediTahmin">
+  <meta property="og:title" content="KrediTahmin: Kredi başvurunuz onaylanır mı?">
+  <meta property="og:description" content="Kredi başvurusunun onaylanıp onaylanmayacağını tahmin eden makine öğrenmesi uygulaması.">
+  <meta property="og:url" content="https://generalbusa.github.io/kreditahmin/">
+  <meta property="og:image" content="https://generalbusa.github.io/kreditahmin/static/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="KrediTahmin: Kredi başvurunuz onaylanır mı? %99,77 test doğruluğu.">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" hreflang="tr" href="index.html">
+  <link rel="alternate" hreflang="en" href="en/index.html">
+  
+  <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="static/favicon.svg" type="image/svg+xml">
+  <meta name="kredi-model" content="model.json">
+  <script id="kredi-i18n" type="application/json">{"js.badge_approve": "Onaylan\u0131r", "js.badge_reject": "Reddedilir", "js.badge_stale": "Bilgiler de\u011fi\u015fti", "js.badge_waiting": "Bekleniyor", "js.form_invalid": "Baz\u0131 alanlar eksik veya hatal\u0131. \u0130\u015faretli alanlar\u0131 d\u00fczeltin.", "js.generic_error": "Bir hata olu\u015ftu. Biraz sonra tekrar deneyin.", "js.network_error": "Sunucuya ula\u015f\u0131lamad\u0131. Uygulaman\u0131n \u00e7al\u0131\u015ft\u0131\u011f\u0131ndan emin olup tekrar deneyin.", "js.score_above": "E\u015fi\u011fin \u00fczerinde", "js.score_below": "E\u015fi\u011fin alt\u0131nda", "js.stamp_approve": "ONAY", "js.stamp_reject": "RET", "js.submit": "Ba\u015fvuruyu de\u011ferlendir", "js.submitting": "De\u011ferlendiriliyor\u2026", "js.verdict_approve": "Model bu ba\u015fvurunun onaylanaca\u011f\u0131n\u0131 tahmin ediyor.", "js.verdict_reject": "Model bu ba\u015fvurunun reddedilece\u011fini tahmin ediyor.", "js.years": "{value} y\u0131l", "lang": "tr", "num.decimal": ",", "num.locale": "tr-TR", "num.percent": "%{value}", "num.thousands": "."}</script>
+  <script src="static/js/boot.js?v=ef182cb795"></script>
+  <link rel="preload" href="static/fonts/Archivo-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="static/css/style.css?v=1cc8b9089d">
+</head>
+<body>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html" aria-label="KrediTahmin">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="16" cy="16" r="10" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
+          <path d="M11 16.5l3.4 3.4L21.5 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>KrediTahmin</span>
+      </a>
+
+      <div class="topbar__right">
+        <nav class="nav" aria-label="Ana menü">
+          <a href="index.html" aria-current="page">Başvuru</a>
+          <a href="model.html" ><span class="nav__long">Model nasıl çalışıyor?</span><span class="nav__short">Model</span></a>
+        </nav>
+
+        <div class="toggles">
+          <nav class="switch" aria-label="Dil" data-active="0">
+            <span class="switch__thumb" aria-hidden="true"></span>
+            
+            <a class="switch__option" href="index.html" hreflang="tr" lang="tr" title="Türkçe" aria-label="Türkçe" aria-current="true">TR</a>
+            
+            <a class="switch__option" href="en/index.html" hreflang="en" lang="en" title="English" aria-label="English">EN</a>
+            
+          </nav>
+
+          <div class="switch switch--theme" role="group" aria-label="Tema">
+            <span class="switch__thumb" aria-hidden="true"></span>
+            <button type="button" class="switch__option" data-theme-value="light" aria-label="Aydınlık tema" title="Aydınlık tema" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <button type="button" class="switch__option" data-theme-value="dark" aria-label="Karanlık tema" title="Karanlık tema" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__text">
+      <h1>Kredi başvurunuz onaylanır mı?</h1>
+      <p class="hero__lede">
+        Başvuru bilgilerini girin. 4.269 kredi başvurusuyla eğitilmiş model, kararını ve gerekçesini birkaç saniyede göstersin.
+      </p>
+      <div class="examples" role="group" aria-label="Örnek başvurular">
+        <button type="button" class="button button--ghost" data-example="approved">Onaylanan örneği dene</button>
+        <button type="button" class="button button--ghost" data-example="rejected">Reddedilen örneği dene</button>
+      </div>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <div class="rosette"></div>
+    </div>
+  </div>
+</section>
+
+<div class="workspace">
+  <form id="application" class="panel" novalidate data-endpoint="/api/predict?lang=tr">
+
+    <section class="panel__section panel__section--score" aria-labelledby="score-title">
+      <div class="section-head">
+        <h2 id="score-title">Kredi skoru</h2>
+        <p>Modelin kararında en belirleyici bilgi. Bu, Hindistan'daki <strong>CIBIL</strong> skorudur (300–900). Türkiye'deki Findeks notuyla (1–1900) aynı ölçekte değildir; Findeks notunuzu buraya doğrudan girmeyin.</p>
+      </div>
+
+      <div class="score">
+        <div class="score__readout">
+          <output class="score__value" id="score-output" for="cibil_score_range">650</output>
+          <span class="score__status" id="score-status"></span>
+        </div>
+        <div class="score__track-wrap">
+          <input type="range" id="cibil_score_range" min="300" max="900" step="1" value="650"
+                 aria-label="Kredi skoru" class="score__range">
+          <div class="score__threshold" style="--pos: 0.4167">
+            <span>550 eşiği</span>
+          </div>
+        </div>
+        <div class="score__scale" aria-hidden="true"><span>300</span><span>600</span><span>900</span></div>
+        <input type="hidden" id="cibil_score" name="cibil_score" value="650">
+        <p class="field__error" data-error-for="cibil_score"></p>
+      </div>
+    </section>
+
+    <section class="panel__section" aria-labelledby="loan-title">
+      <div class="section-head">
+        <h2 id="loan-title">Kredi talebi</h2>
+      </div>
+      <div class="grid">
+        <div class="field">
+  <label for="loan_amount">Kredi tutarı</label>
+  <div class="input input--suffix">
+    <input type="text" id="loan_amount" name="loan_amount" inputmode="numeric" autocomplete="off" data-money placeholder="15.000.000">
+    <span class="input__suffix" aria-hidden="true">₹</span>
+  </div>
+  <p class="field__error" data-error-for="loan_amount"></p>
+</div>
+        <div class="field">
+          <label for="loan_term">Vade</label>
+          <div class="input input--suffix">
+            <input type="text" id="loan_term" name="loan_term" inputmode="numeric" autocomplete="off" placeholder="10">
+            <span class="input__suffix" aria-hidden="true">yıl</span>
+          </div>
+          <p class="field__help">Eğitim verisinde 2 ile 20 yıl arası.</p>
+          <p class="field__error" data-error-for="loan_term"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel__section" aria-labelledby="income-title">
+      <div class="section-head">
+        <h2 id="income-title">Gelir ve kişisel bilgiler</h2>
+      </div>
+      <div class="grid">
+        <div class="field">
+  <label for="income_annum">Yıllık gelir</label>
+  <div class="input input--suffix">
+    <input type="text" id="income_annum" name="income_annum" inputmode="numeric" autocomplete="off" data-money placeholder="5.000.000">
+    <span class="input__suffix" aria-hidden="true">₹</span>
+  </div>
+  <p class="field__error" data-error-for="income_annum"></p>
+</div>
+        <div class="field">
+          <label for="no_of_dependents">Bakmakla yükümlü olunan kişi</label>
+          <div class="stepper">
+            <button type="button" class="stepper__button" data-step="-1" aria-label="Bir azalt">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <input type="text" id="no_of_dependents" name="no_of_dependents" inputmode="numeric" autocomplete="off" value="0">
+            <button type="button" class="stepper__button" data-step="1" aria-label="Bir artır">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <p class="field__error" data-error-for="no_of_dependents"></p>
+        </div>
+
+        <fieldset class="field segmented">
+          <legend>Eğitim durumu</legend>
+          <div class="segmented__options">
+            <label><input type="radio" name="education" value="Graduate" checked><span>Üniversite mezunu</span></label>
+            <label><input type="radio" name="education" value="Not Graduate"><span>Mezun değil</span></label>
+          </div>
+          <p class="field__error" data-error-for="education"></p>
+        </fieldset>
+
+        <fieldset class="field segmented">
+          <legend>Çalışma şekli</legend>
+          <div class="segmented__options">
+            <label><input type="radio" name="self_employed" value="No" checked><span>Maaşlı</span></label>
+            <label><input type="radio" name="self_employed" value="Yes"><span>Kendi işi</span></label>
+          </div>
+          <p class="field__error" data-error-for="self_employed"></p>
+        </fieldset>
+      </div>
+    </section>
+
+    <section class="panel__section" aria-labelledby="assets-title">
+      <div class="section-head">
+        <h2 id="assets-title">Varlıklar</h2>
+        <p>Sahip olmadığınız varlık türü için 0 girin.</p>
+      </div>
+      <div class="grid">
+        <div class="field">
+  <label for="residential_assets_value">Konut</label>
+  <div class="input input--suffix">
+    <input type="text" id="residential_assets_value" name="residential_assets_value" inputmode="numeric" autocomplete="off" data-money placeholder="0">
+    <span class="input__suffix" aria-hidden="true">₹</span>
+  </div>
+  <p class="field__error" data-error-for="residential_assets_value"></p>
+</div>
+        <div class="field">
+  <label for="commercial_assets_value">Ticari</label>
+  <div class="input input--suffix">
+    <input type="text" id="commercial_assets_value" name="commercial_assets_value" inputmode="numeric" autocomplete="off" data-money placeholder="0">
+    <span class="input__suffix" aria-hidden="true">₹</span>
+  </div>
+  <p class="field__error" data-error-for="commercial_assets_value"></p>
+</div>
+        <div class="field">
+  <label for="luxury_assets_value">Lüks (araç, mücevher vb.)</label>
+  <div class="input input--suffix">
+    <input type="text" id="luxury_assets_value" name="luxury_assets_value" inputmode="numeric" autocomplete="off" data-money placeholder="0">
+    <span class="input__suffix" aria-hidden="true">₹</span>
+  </div>
+  <p class="field__error" data-error-for="luxury_assets_value"></p>
+</div>
+        <div class="field">
+  <label for="bank_asset_value">Banka hesapları</label>
+  <div class="input input--suffix">
+    <input type="text" id="bank_asset_value" name="bank_asset_value" inputmode="numeric" autocomplete="off" data-money placeholder="0">
+    <span class="input__suffix" aria-hidden="true">₹</span>
+  </div>
+  <p class="field__error" data-error-for="bank_asset_value"></p>
+</div>
+      </div>
+    </section>
+
+    <div class="panel__footer">
+      <button type="submit" class="button button--primary" id="submit-button">Başvuruyu değerlendir</button>
+      <p class="form-status" id="form-status" role="status"></p>
+    </div>
+  </form>
+
+  <aside class="slip" aria-labelledby="slip-title">
+    <div class="slip__band" aria-hidden="true"></div>
+    <div class="slip__body">
+      <div class="slip__head">
+        <h2 id="slip-title">Değerlendirme</h2>
+        <span class="slip__badge" id="slip-badge">Bekleniyor</span>
+      </div>
+
+      <dl class="ratios">
+        <div><dt>Yıllık taksit / gelir</dt><dd id="ratio-payment">—</dd></div>
+        <div><dt>Kredi / yıllık gelir</dt><dd id="ratio-income">—</dd></div>
+        <div><dt>Toplam varlık</dt><dd id="ratio-assets">—</dd></div>
+      </dl>
+
+      <div class="slip__result" aria-live="polite">
+        <div class="slip__empty" id="result-empty">
+          <p>Formu doldurup <strong>Başvuruyu değerlendir</strong>'e bastığınızda modelin kararı burada görünecek.</p>
+        </div>
+
+        <div class="verdict" id="result-filled" hidden>
+          <div class="stamp" id="stamp"><span id="stamp-text"></span></div>
+          <p class="verdict__headline" id="verdict-headline"></p>
+
+          <div class="meter">
+            <div class="meter__labels"><span>Onay olasılığı</span><strong id="probability-text"></strong></div>
+            <div class="meter__bar"><div class="meter__fill" id="probability-fill"></div><div class="meter__mid" aria-hidden="true"></div></div>
+          </div>
+
+          <ul class="factors" id="factors"></ul>
+          <ul class="warnings" id="warnings"></ul>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__brand">KrediTahmin</p>
+      <p>Bu uygulama bir eğitim projesidir ve gerçek bir kredi kararı vermez. Model, Kaggle'daki <a href="https://www.kaggle.com/datasets/architsharma01/loan-approval-prediction-dataset">Loan Approval Prediction</a> veri setiyle eğitildi.</p>
+      <div class="footer__meta">
+        <p>Veri Bilimi ve Makine Öğrenmesi 2026: 100 Günlük Kamp kapanış projesi</p>
+        <p><a href="https://github.com/GeneralBuSa/kreditahmin">Kaynak kod GitHub'da</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="static/js/theme.js?v=34637e5ecb"></script>
+  <script src="static/js/predictor.js?v=6bbb6c44f4"></script>
+  
+<script src="static/js/app.js?v=cfee7dde02"></script>
+
+</body>
+</html>
